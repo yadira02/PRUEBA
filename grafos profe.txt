@@ -1,0 +1,52 @@
+>>> class Grafo(object):
+    def __init__(self):
+        self.Vertices=set()
+        self.Aristas=dict()
+        self.Vecinos=dict()
+        
+    def Agrega(self,V):
+        self.Vertices.add(V)
+        if not V in self.Vecinos:
+            self.Vecinos[V]=set()
+            
+    def Conecta(self,U,V,peso=1):
+        self.Agrega(U)
+        self.Agrega(V)
+        self.Aristas[(U,V)]=self.Aristas[(V,U)]=peso
+        self.Vecinos[U].add(V)
+        self.Vecinos[V].add(U)
+        
+    @property
+    def Complemento(self):
+        comp=Grafo()
+        for A in self.Vertices:
+            for B in self.Vertices:
+                if A!=B and (A,B) not in self.Aristas:
+                    comp.Conecta(A,B,1)
+
+                    
+>>> ayde=Grafo()
+>>> ayde.Conecta('a','b')
+>>> ayde
+<__main__.Grafo object at 0x02D59F50>
+>>> ayde.Aristas
+{('a', 'b'): 1, ('b', 'a'): 1}
+>>> ayde.Vertices
+{'b', 'a'}
+>>> ayde.Vecinos[a]
+Traceback (most recent call last):
+  File "<pyshell#12>", line 1, in <module>
+    ayde.Vecinos[a]
+NameError: name 'a' is not defined
+>>> ayde.Vecinos['a']
+{'b'}
+>>> ayde.Conecta('a','c')
+>>> ayde.Vertices
+{'b', 'a', 'c'}
+>>> ayde.Aristas
+{('a', 'b'): 1, ('b', 'a'): 1, ('a', 'c'): 1, ('c', 'a'): 1}
+>>> ayde.Vecinos['a']
+{'b', 'c'}
+>>> ayde.Vecinos['b']
+{'a'}
+>>> 

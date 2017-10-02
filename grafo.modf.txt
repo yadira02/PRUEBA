@@ -1,0 +1,26 @@
+class Grafo:
+ 
+    def __init__(self):
+        self.C = set() # un conjunto
+        self.ARI = dict() # un mapeo de pesos de aristas
+        self.VEC = dict() # un mapeo
+ 
+    def agrega(self, v):
+        self.C.add(v)
+        if not v in self.vecinos: # vecindad de v
+            self.VEC[v] = set() # inicialmente no tiene nada
+ 
+    def conecta(self, v, u, peso=1):
+        self.agrega(v)
+        self.agrega(u)
+        self.ARI[(v, u)] = self.ARI[(u, v)] = peso # en ambos sentidos
+        self.VEC[v].add(u)
+        self.VEC[u].add(v)
+ 
+    def complemento(self):
+        comp= Grafo()
+        for v in self.C:
+            for w in self.C:
+                if v != w and (v, w) not in self.ARI:
+                    comp.conecta(v, w, 1)
+        return comp
